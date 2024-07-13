@@ -7,7 +7,7 @@ const ApiClient = axios.create({
 
 ApiClient.interceptors.request.use(
     async (config) => {
-        const token = BaseStore.userStore.getToken();
+        const token = BaseStore.userStore.userToken;
         if (token != null) {
             config.headers.Authorization = `Bearer ${token}`;
         }

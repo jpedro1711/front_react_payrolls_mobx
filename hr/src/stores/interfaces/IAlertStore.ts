@@ -1,4 +1,4 @@
 export default interface IAlertStore {
-    setAlert(message: string): any,
+    setAlert(message: string, sucess: boolean): any,
     clearAlert(): any
 }

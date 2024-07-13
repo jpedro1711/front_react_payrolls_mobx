@@ -3,6 +3,7 @@ import { useFormik } from 'formik';
 import { Button, TextField, Typography } from '@mui/material';
 import IAuthRequest from '../../../services/requests/IAuthRequest';
 import useStores from '../../../stores/BaseStore';
+import { useNavigate } from 'react-router-dom';
 
 const validationSchema = yup.object({
   username: yup
@@ -21,6 +22,7 @@ const validationSchema = yup.object({
 
 const RegisterPage = () => {
   const { userStore } = useStores();
+  const navigate = useNavigate();
 
   const formik = useFormik({
     initialValues: {
@@ -29,12 +31,13 @@ const RegisterPage = () => {
       passwordConfirm: ''
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       const reqData: IAuthRequest = {
           username: values.username,
           password: values.password,
       };
-      userStore.register(reqData);
+      await userStore.register(reqData);
+      navigate('/login')
   },
   });
 

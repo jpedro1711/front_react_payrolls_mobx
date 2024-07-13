@@ -16,10 +16,12 @@ export default class UserStore  {
   constructor(loadingStore: ILoadingStore, alertStore: IAlertStore) {
     this.authService = new AuthService(loadingStore, alertStore);
     const userLocalStorage = localStorage.getItem('user');
+    const tokenLocalStorage = localStorage.getItem('token');
 
-    if (userLocalStorage) {
+    if (userLocalStorage && tokenLocalStorage) {
         this.isLogged = true
         this.user = JSON.parse(userLocalStorage)
+        this.userToken = JSON.parse(tokenLocalStorage)
     }
     makeAutoObservable(this);
   }
@@ -27,6 +29,7 @@ export default class UserStore  {
   setUser(user: User) {
     this.user = user
     localStorage.setItem('user', JSON.stringify(this.user))
+    localStorage.setItem('token', JSON.stringify(this.userToken))
   }
 
   setIsAuthenticated(state: boolean) {

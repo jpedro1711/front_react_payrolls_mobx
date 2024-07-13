@@ -17,9 +17,10 @@ export default class AuthService implements IAuthService {
         this.loadingStore.setLoading(true);
         try {
             const result = await ApiClient.post('/Auth/login', request);
+            this.alertStore.setAlert('Login realizado com sucesso', true);
             return result.data;
         } catch (error: any) {
-            this.alertStore.setAlert('Erro de login');
+            this.alertStore.setAlert('Erro de login', false);
             return error.response;
         } finally {
             this.loadingStore.setLoading(false);
@@ -30,9 +31,10 @@ export default class AuthService implements IAuthService {
         this.loadingStore.setLoading(true);
         try {
             const result = await ApiClient.post('/Auth/register', request);
+            this.alertStore.setAlert('Cadastro realizado com sucesso', true);
             return result.data;
         } catch (error: any) {
-            this.alertStore.setAlert('Erro de cadastro');
+            this.alertStore.setAlert('Erro de cadastro', false);
             return error.response;
         } finally {
             this.loadingStore.setLoading(false);
@@ -44,7 +46,7 @@ export default class AuthService implements IAuthService {
             const result = await ApiClient.get('/Auth/GetCurrentUser');
             return result.data;
         } catch (error: any) {
-            this.alertStore.setAlert('Erro ao buscar dados do usuário');
+            this.alertStore.setAlert('Erro ao buscar dados do usuário', false);
         }
     }
 }

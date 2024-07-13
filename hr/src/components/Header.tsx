@@ -1,5 +1,6 @@
 import { AppBar, Box, Button, Toolbar, Typography  } from '@mui/material'
 import useStores from '../stores/BaseStore';
+import { observer } from 'mobx-react-lite';
 
 const Header = () => {
   const { userStore } = useStores();
@@ -20,10 +21,14 @@ const Header = () => {
                     </Typography>
                 </Box>
                 <Box sx={{ display: 'flex', gap: 2 }}>
-                    <Button color="inherit" href='/login'>Login</Button>
-                    <Button color="inherit" href='/register'>Register</Button>
-                    <Button color="inherit" href='/payrolls'>Payrolls</Button>
-                    <Button variant='outlined' color='error' onClick={handleLogout}>Logout</Button>
+                  {!userStore.isLogged && 
+                      <>
+                      <Button color="inherit" href='/login'>Login</Button>
+                      <Button color="inherit" href='/register'>Register</Button>
+                      </>
+                  }
+                  <Button color="inherit" href='/payrolls'>Payrolls</Button>
+                  {userStore.isLogged && <Button variant='outlined' color='error' onClick={handleLogout}>Logout</Button> }
                 </Box>
             </Toolbar>
         </AppBar>
@@ -31,4 +36,4 @@ const Header = () => {
   )
 }
 
-export default Header;
+export default observer(Header);

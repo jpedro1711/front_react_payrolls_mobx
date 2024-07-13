@@ -18,7 +18,7 @@ const AlertSnackBar = observer(() => {
             onClose={handleClose}
             anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         >
-            <Alert variant="filled" onClose={handleClose} severity="error" sx={{ width: '150%' }}>
+            <Alert variant="filled" onClose={handleClose} severity={(alertStore.success) ? "success"  : "error"} sx={{ width: '150%' }}>
                 {alertStore.message}
             </Alert>
         </Snackbar>
