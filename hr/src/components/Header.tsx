@@ -1,12 +1,12 @@
-import { AppBar, Box, Button, Toolbar, Typography  } from '@mui/material'
+import { AppBar, Box, Button, Toolbar  } from '@mui/material'
 import useStores from '../stores/BaseStore';
 import { observer } from 'mobx-react-lite';
+import AppsSharpIcon from '@mui/icons-material/AppsSharp';
 
 const Header = () => {
   const { userStore } = useStores();
 
   const handleLogout = () => {
-    console.log(userStore.isLogged)
     userStore.logout()
     window.location.href = '/login';
   }
@@ -16,9 +16,7 @@ const Header = () => {
         <AppBar color='transparent' position="static" sx={{ marginBottom: 20, paddingY: '20px' }}>
             <Toolbar variant="dense" sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Box>
-                    <Typography variant="h6" color="inherit" component="div">
-                        Payroll Manager
-                    </Typography>
+                    <AppsSharpIcon />
                 </Box>
                 <Box sx={{ display: 'flex', gap: 2 }}>
                   {!userStore.isLogged && 

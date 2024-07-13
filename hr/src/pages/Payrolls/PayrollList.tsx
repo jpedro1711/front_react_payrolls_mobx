@@ -21,7 +21,7 @@ const PayrollList = () => {
   const fetch = async () => {
     var user = userStore.user?.username;
     if (user) {
-      var payrolls = (await payrollStore.getPayrolls(user)).sort();
+      var payrolls = (await payrollStore.getPayrolls(user));
       setPayrolls(payrolls);
     }
   };
