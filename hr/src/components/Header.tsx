@@ -13,7 +13,7 @@ const Header = () => {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-        <AppBar color='transparent' position="static" sx={{ marginBottom: 20, paddingY: '20px' }}>
+        <AppBar color='transparent' position="static" sx={{ marginBottom: 5, paddingY: '20px' }}>
             <Toolbar variant="dense" sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Box>
                     <AppsSharpIcon />
@@ -25,7 +25,6 @@ const Header = () => {
                       <Button color="inherit" href='/register'>Register</Button>
                       </>
                   }
-                  <Button color="inherit" href='/payrolls'>Payrolls</Button>
                   {userStore.isLogged && <Button variant='outlined' color='error' onClick={handleLogout}>Logout</Button> }
                 </Box>
             </Toolbar>

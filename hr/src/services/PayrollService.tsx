@@ -40,5 +40,20 @@ export default class PayrollService implements IPayrollService {
             this.loadingStore.setLoading(false);
         }
     }
+
+    async calculatePayroll(employeeName: string, year: number, month: number) {
+        this.loadingStore.setLoading(true)
+        try {
+            const result = await ApiClient.get(`Employee/calculate-salary?employeeName=${encodeURIComponent(employeeName)}&year=${year}&month=${month}`);
+            console.log(result.data)
+            return result.data;
+        } catch (error: any) {
+            this.alertStore.setAlert('Erro ao buscar salário do funcionário', false);
+            console.log(error)
+            return error.response;
+        } finally {
+            this.loadingStore.setLoading(false);
+        }
+    }
     
 }

@@ -24,6 +24,11 @@ export default class PayrollStore {
     return result;
   }
 
+  async calculateEmployeeSalary(employeeName: string, month: number, year: number) {
+    const result = await this.payrollService.calculatePayroll(employeeName, year, month);
+    return result;
+  }
+
   @action async registerNew(employeeName: string | undefined) {
     if (employeeName) {
       var requestData: IRegisterCheckinOrCheckoutRequest = {

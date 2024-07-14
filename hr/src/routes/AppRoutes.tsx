@@ -3,6 +3,8 @@ import LoginPage from '../pages/Authentication/Login/LoginPage'
 import RegisterPage from '../pages/Authentication/Register/RegisterPage'
 import ProtectedRoutes from './ProtectedRoutes'
 import PayrollsPage from '../pages/Payrolls/PayrollsPage'
+import NotFound from '../pages/NotFound/NotFound'
+import CalculatePayrollPage from '../pages/CalculatePayroll/CalculatePayrollPage'
 
 const AppRoutes = () => {
   return (
@@ -12,7 +14,9 @@ const AppRoutes = () => {
             <Route path='/register' element={<RegisterPage />} />
             <Route element={<ProtectedRoutes />}>
                 <Route path='/payrolls' element={<PayrollsPage />} />
+                <Route path='/calculatePayroll' element={<CalculatePayrollPage />} />
             </Route>
+            <Route path="*" element={<NotFound />} />
         </Routes>
     </BrowserRouter>
   )
