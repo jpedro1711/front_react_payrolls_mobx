@@ -1,28 +1,40 @@
 import React, { useEffect } from "react";
 import useStores from "../../stores/BaseStore";
-import moment from "moment";
 import Payroll from "../../stores/models/Payroll";
 import {
   Container,
   Table,
   TableBody,
-  TableCell,
   TableContainer,
-  TableHead,
-  TableRow,
+  TablePagination,
 } from "@mui/material";
 import { observer } from "mobx-react-lite";
+import PayrollListTableItem from "./components/PayrollListTableItem";
+import PayrollListTableHead from "./components/PayrollListTableHead";
 
 const PayrollList = () => {
   const { payrollStore, userStore } = useStores();
 
   const [payrolls, setPayrolls] = React.useState<Array<Payroll> | null>(null);
+  const [page, setPage] = React.useState(0)
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-  const fetch = async () => {
+  const handleChangePage = (_event: unknown, newPage: number) => {
+    setPage(newPage)
+  }
+
+  const handleChangeRowsPerPage = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newSize = +event.target.value;
+    setRowsPerPage(newSize);
+    setPage(0);
+    fetchPayrolls(0, newSize);
+  }
+
+  const fetchPayrolls = async (pageNumber: number, pageSize: number) => {
     var user = userStore.user?.username;
     if (user) {
-      var payrolls = (await payrollStore.getPayrolls(user));
-      setPayrolls(payrolls);
+      var payrolls = await payrollStore.getPayrolls(user, pageNumber + 1, pageSize);
+      setPayrolls(payrolls.data);
     }
   };
 
@@ -31,85 +43,33 @@ const PayrollList = () => {
   }, [payrollStore.payrolls])
 
   useEffect(() => {
-    fetch();
-  }, [payrollStore]);
-
-  const getDate = (date: string) => {
-    if (date == null) {
-      return "--";
-    }
-    return moment(date).format("DD/MM/YYYY - HH:mm");
-  };
-
-  const getTotalHours = (dateStart: string, dateEnd: string) => {
-    if (dateStart == null || dateEnd == null) {
-      return "--";
-    }
-    return moment(dateEnd).diff(moment(dateStart), "hours");
-  };
-
-  const getTotalValue = (
-    hourlyRate: number,
-    dateStart: string,
-    dateEnd: string
-  ) => {
-    const hours = getTotalHours(dateStart, dateEnd);
-    if (hours == "--") {
-      return "--";
-    }
-    return "$" + (hours * hourlyRate).toFixed(2);
-  };
+    fetchPayrolls(page, rowsPerPage);
+  }, [page, rowsPerPage]);
 
   return (
     <Container>
       <TableContainer>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead>
-            <TableRow>
-              <TableCell>
-                <strong>Employee</strong>
-              </TableCell>
-              <TableCell align="right">
-                <strong>Check-In</strong>
-              </TableCell>
-              <TableCell align="right">
-                <strong>Check-Out</strong>
-              </TableCell>
-              <TableCell align="right">
-                <strong>Total Hours</strong>
-              </TableCell>
-              <TableCell align="right">
-                <strong>Total Payment</strong>
-              </TableCell>
-            </TableRow>
-          </TableHead>
+          <PayrollListTableHead />
           <TableBody>
             {payrolls &&
               payrolls.map((row) => (
-                <TableRow
-                  key={row.id}
-                  sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                >
-                  <TableCell component="th" scope="row">
-                    {row.employee.name}
-                  </TableCell>
-                  <TableCell align="right">{getDate(row.checkin)}</TableCell>
-                  <TableCell align="right">{getDate(row.checkout)}</TableCell>
-                  <TableCell align="right">
-                    {getTotalHours(row.checkin, row.checkout)}
-                  </TableCell>
-                  <TableCell align="right">
-                    {getTotalValue(
-                      row.employee.hourlyRate,
-                      row.checkin,
-                      row.checkout
-                    )}
-                  </TableCell>
-                </TableRow>
+                <PayrollListTableItem row={row} />
               ))}
           </TableBody>
         </Table>
       </TableContainer>
+      {payrollStore.paginationOptions && 
+        <TablePagination
+          rowsPerPageOptions={[5, 10, 25, 50]}
+          component="div"
+          count={payrollStore.paginationOptions.totalItems}
+          rowsPerPage={rowsPerPage}
+          page={page}
+          onPageChange={handleChangePage}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+        />
+      }
     </Container>
   );
 };

@@ -16,7 +16,9 @@ const Header = () => {
         <AppBar color='transparent' position="static" sx={{ marginBottom: 5, paddingY: '20px' }}>
             <Toolbar variant="dense" sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Box>
+                  <a href='/'>
                     <AppsSharpIcon />
+                  </a>
                 </Box>
                 <Box sx={{ display: 'flex', gap: 2 }}>
                   {!userStore.isLogged && 

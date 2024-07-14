@@ -13,10 +13,10 @@ export default class PayrollService implements IPayrollService {
         this.alertStore = alertStore;
     }
 
-    async getPayrolls(employeeName: string) {
+    async getPayrolls(employeeName: string, pageNumber: number, pageSize: number) {
         this.loadingStore.setLoading(true);
         try {
-            const result = await ApiClient.get('/Employee/get-payrolls?EmployeeUniqueName=' + employeeName);
+            const result = await ApiClient.get(`/Employee/get-payrolls?EmployeeUniqueName=${employeeName}&pageNumber=${pageNumber}&pageSize=${pageSize}`);
             return result.data;
         } catch (error: any) {
             this.alertStore.setAlert('Erro ao buscar payrolls do funcionário', false);
@@ -45,7 +45,6 @@ export default class PayrollService implements IPayrollService {
         this.loadingStore.setLoading(true)
         try {
             const result = await ApiClient.get(`Employee/calculate-salary?employeeName=${encodeURIComponent(employeeName)}&year=${year}&month=${month}`);
-            console.log(result.data)
             return result.data;
         } catch (error: any) {
             this.alertStore.setAlert('Erro ao buscar salário do funcionário', false);
