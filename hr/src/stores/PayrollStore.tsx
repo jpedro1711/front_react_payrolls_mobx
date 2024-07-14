@@ -50,7 +50,7 @@ export default class PayrollStore {
       };
       await this.payrollService.saveNew(requestData);
       var result = await this.getPayrolls(employeeName, this.paginationOptions?.pageNumber || 1, this.paginationOptions?.pageSize || 10);
-      this.setPayrolls(result)
+      this.setPayrolls(result.data)
     }
   }
 }

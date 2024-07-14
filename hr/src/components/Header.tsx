@@ -16,7 +16,7 @@ const Header = () => {
         <AppBar color='transparent' position="static" sx={{ marginBottom: 5, paddingY: '20px' }}>
             <Toolbar variant="dense" sx={{ display: 'flex', justifyContent: 'space-between' }}>
                 <Box>
-                  <a href='/'>
+                  <a href='/' style={{textDecoration: 'none', color: 'black'}}>
                     <AppsSharpIcon />
                   </a>
                 </Box>

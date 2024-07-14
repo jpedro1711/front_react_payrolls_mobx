@@ -54,7 +54,7 @@ const PayrollList = () => {
           <TableBody>
             {payrolls &&
               payrolls.map((row) => (
-                <PayrollListTableItem row={row} />
+                <PayrollListTableItem row={row} key={row.id}/>
               ))}
           </TableBody>
         </Table>
